@@ -1,10 +1,13 @@
 import Layout from "@/components/Layout";
-
-import React, { useRef , useState} from "react";
+import axios from "axios";
+import React, { useRef, useState } from "react";
 
 export default function AddNewProduct() {
   const fileInputRef = useRef(null);
-  const [fileName, setFileName] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [fileName, setFileName] = useState("");
 
   const handleButtonClick = () => {
     fileInputRef.current.click();
@@ -22,11 +25,25 @@ export default function AddNewProduct() {
     // Clear the file input
     fileInputRef.current.value = null;
     // Clear the file name state
-    setFileName('');
+    setFileName("");
   };
+
+  
+  async function createProduct(event){
+    event.preventDefault();
+    const data = {title, description, price}
+    try{
+        await axios.post('/api/products',data)
+    }
+    catch(error){
+        console.log(error);
+    }
+      
+  }
 
   return (
     <Layout>
+        <form onSubmit={createProduct}>
       <h1 className="text-green-900 text-center mb-4 font-semibold text-lg">
         הוספת מוצר חדש
       </h1>
@@ -36,6 +53,8 @@ export default function AddNewProduct() {
           type="text"
           placeholder="שם המוצר"
           className="w-full p-2 border border-gray-300 rounded"
+          value={title}
+          onChange={(event) => setTitle(event.target.value)}
         />
       </div>
       <div className="mb-4">
@@ -43,6 +62,8 @@ export default function AddNewProduct() {
         <textarea
           placeholder="תיאור המוצר"
           className="w-full p-2 border border-gray-300 rounded"
+          value={description}
+          onChange={(event) => setDescription(event.target.value)}
         ></textarea>
       </div>
       <div className="mb-4">
@@ -51,6 +72,8 @@ export default function AddNewProduct() {
           type="number"
           placeholder="מחיר"
           className="w-full p-2 border border-gray-300 rounded"
+          value={price}
+          onChange={(event) => setPrice(event.target.value)}
         />
       </div>
       <div className="flex items-center my-4">
@@ -73,16 +96,17 @@ export default function AddNewProduct() {
           readOnly
           className="flex-grow p-2 border border-gray-300 rounded"
         />
-           {fileName && (
-          <button 
-            onClick={handleCancelClick} 
+        {fileName && (
+          <button
+            onClick={handleCancelClick}
             className="bg-red-300 rounded-md ml-2 mb-2 text-xs p-1 hover:bg-red-500 mr-2"
           >
             ביטול
           </button>
         )}
       </div>
-      <button className="btn-primary">שמירה</button>
+      <button type="submit" className="btn-primary">שמירה</button>
+      </form>
     </Layout>
   );
 }
