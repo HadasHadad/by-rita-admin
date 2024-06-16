@@ -9,7 +9,7 @@ export default function Home() {
     <>
     <Layout>
       <div className="flex justify-between">
-     <h2> Hello,<b> {session?.user?.name} </b></h2>
+     <h2 className="font-bold"> שלום,<b> {session?.user?.name} </b></h2>
     
       <img src={session?.user?.image} alt="userImg" className="w-6 h-6"/>
      

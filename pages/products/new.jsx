@@ -1,5 +1,5 @@
 import Layout from "@/components/Layout";
-import axios from "axios";
+import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 
 export default function AddNewProduct() {
@@ -8,6 +8,7 @@ export default function AddNewProduct() {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [fileName, setFileName] = useState("");
+  const router =useRouter();
 
   const handleButtonClick = () => {
     fileInputRef.current.click();
@@ -29,16 +30,33 @@ export default function AddNewProduct() {
   };
 
   
-  async function createProduct(event){
-    event.preventDefault();
-    const data = {title, description, price}
-    try{
-        await axios.post('/api/products',data)
-    }
-    catch(error){
-        console.log(error);
-    }
+
+  const createProduct = async (e) => {
+    e.preventDefault();
+     if(!title || !price){
+      alert("שם המוצר והמחיר נדרשים")
+      return;
+     }
+     try {
+      const res = await fetch('http://localhost:3000/api/products', {
+        method: "POST",
+        headers: {
+          "Content-type" : "application/json"
+        },
+        body: JSON.stringify({title, description, price}),
+      })
+      if (res.ok){
+        
+       
+        router.push('/products');
       
+
+      } else{
+        throw new Error("failed to create new product")
+      }
+     } catch (error) {
+      console.log (error)
+     }
   }
 
   return (
@@ -48,7 +66,7 @@ export default function AddNewProduct() {
         הוספת מוצר חדש
       </h1>
       <div className="mb-4">
-        <label className="block mb-2">שם המוצר</label>
+        <label className="block mb-2 pr-1">שם המוצר</label>
         <input
           type="text"
           placeholder="שם המוצר"
@@ -58,7 +76,7 @@ export default function AddNewProduct() {
         />
       </div>
       <div className="mb-4">
-        <label className="block mb-2">תיאור המוצר</label>
+        <label className="block mb-2 pr-1">תיאור המוצר</label>
         <textarea
           placeholder="תיאור המוצר"
           className="w-full p-2 border border-gray-300 rounded"
@@ -67,7 +85,7 @@ export default function AddNewProduct() {
         ></textarea>
       </div>
       <div className="mb-4">
-        <label className="block mb-2">מחיר (בש"ח)</label>
+        <label className="block mb-2 pr-1">מחיר (בש"ח)</label>
         <input
           type="number"
           placeholder="מחיר"

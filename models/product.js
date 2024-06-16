@@ -1,9 +1,17 @@
-import {model, Schema} from "mongoose";
 
-const ProductSchema = new Schema ({
+import mongoose , {Schema} from "mongoose";
+
+const productSchema = new Schema ({
     title: {type: String , required: true}, 
-    description : string,
+    description : String,
     price: {type: Number , required: true},
 })
 
-export const Product = model('Product' , ProductSchema)
+const Product = mongoose.models.Product || mongoose.model("Product", productSchema)
+
+export default Product;
+
+
+
+
+
