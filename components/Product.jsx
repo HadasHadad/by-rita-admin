@@ -2,7 +2,7 @@ export default function Product({ product, viewAsGrid }) {
   if (viewAsGrid) {
     return (
       <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
-        <h2 className="text-lg font-semibold text-gray-800 px-4 pt-4">
+        <h2 className="text-lg font-semibold text-gray-800 px-4 pt-4 mb-2">
           {product.title}
         </h2>
         <div className="flex bg-gray-200  h-64">
@@ -15,7 +15,7 @@ export default function Product({ product, viewAsGrid }) {
         <div className="p-4">
           <p className="text-gray-600">{product.description}</p>
         </div>
-        <div className="flex mt-auto px-4 pb-4 space-x-2 justify-between">
+        <div className="flex mt-4 px-4 pb-4 space-x-2 justify-between ">
           <div className=" text-lg font-bold text-gray-800">
             {product.price} ש"ח
           </div>
