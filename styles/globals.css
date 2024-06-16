@@ -21,3 +21,9 @@ label{
 .btn-primary{
   @apply bg-green-700 text-white text-sm shadow-lg py-1 px-4 rounded-md
 }
+.position-button-grid {
+  display: block;
+  position: relative;
+  top: -3rem;
+  right:33rem;
+}

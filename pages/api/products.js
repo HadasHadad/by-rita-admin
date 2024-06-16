@@ -27,7 +27,7 @@ export default async function handler(req, res) {
 
         case 'DELETE':
             try {
-                const id = req.query.id; // Changed to req.query.id for accessing query parameters in Next.js API routes
+                const id = req.query.id;
                 await Product.findByIdAndDelete(id);
                 res.status(200).json({ message: 'Product deleted' });
             } catch (e) {
